@@ -35,11 +35,16 @@ export default async function proxyPrivateDownload(
   //     `https://${token}@api.github.com/`
   // )
 
+  console.log("fetching at: ", rawUrl, headers);
+
   const assetRes = await fetch(rawUrl, {
     headers,
     redirect,
   });
 
-  res.setHeader("Location", assetRes.headers.get("Location") || "");
-  res.status(302);
+  const location = assetRes.headers.get("Location") || "";
+  res.writeHead(302, {
+    Location: location,
+  });
+  res.end();
 }

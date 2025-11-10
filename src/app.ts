@@ -90,6 +90,7 @@ app.get("/download/:platform", async (req, res) => {
   const isUpdate = params && params.update;
 
   let { platform } = req.params;
+  consola.log("downloading for platform: ", platform);
 
   if (platform === "mac" && !isUpdate) {
     platform = "dmg";
@@ -133,6 +134,7 @@ app.get("/download/:platform", async (req, res) => {
   }
 
   if (cache.config.token && cache.config.token.length > 0) {
+    consola.log("proxying private download");
     await proxyPrivateDownload(findPlatform, cache.config.token, req, res);
     return;
   }
@@ -208,7 +210,9 @@ app.get("/update/:platform/:version", async (req, res) => {
   if (compare(latest.version, version) !== 0) {
     const { notes, pub_date } = latest;
 
-    res.status(200).send({
+    consola.log("cache.config.url: ", cache.config.url);
+
+    res.status(200).json({
       name: latest.version,
       notes,
       pub_date,
@@ -220,8 +224,7 @@ app.get("/update/:platform/:version", async (req, res) => {
     return;
   }
 
-  res.statusCode = 204;
-  res.end();
+  res.status(204).end();
 });
 
 app.get("/overview", async (req, res) => {});

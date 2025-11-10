@@ -1,12 +1,15 @@
-version: '3.9'
+version: "3.9"
 
 services:
-    almond:
-        image: konotorii/almond
-        container_name: almond
-        restart: always
-        ports:
-            - 5000:5000
-        environment:
-        env_file:
-            - .env
+  almond:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: konotorii/almond
+    container_name: almond
+    restart: always
+    ports:
+      - 3030:3030
+    environment:
+    env_file:
+      - .env

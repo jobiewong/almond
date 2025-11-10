@@ -6,5 +6,5 @@ RUN npm install --force
 COPY . /app
 RUN npm run build
 
-EXPOSE 5000
+EXPOSE 3030 
 CMD ["npm", "run", "start"]

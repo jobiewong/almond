@@ -8,7 +8,5 @@ services:
         ports:
             - 5000:5000
         environment:
-            - ACCOUNT=
-            - REPOSITORY=
-            - TOKEN=
-            - URL=
+        env_file:
+            - .env

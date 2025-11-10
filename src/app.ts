@@ -158,11 +158,19 @@ app.get("/update/:platform/:version", async (req, res) => {
 
   await cache.loadCache();
 
+  consola.log("platformName: ", platformName);
   const platform = checkAlias(platformName);
 
   const findPlatform = cache.cache.latest.platforms.find(
     (v) => v.platform && v.platform.includes(platform)
   );
+
+  consola.log(
+    "platform: ",
+    cache.cache.latest.platforms.map((v) => v.platform).join(", ")
+  );
+  consola.log("platform: ", platform);
+  consola.log("findPlatform: ", findPlatform);
 
   if (!findPlatform) {
     res.status(500).send({

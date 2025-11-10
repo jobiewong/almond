@@ -161,7 +161,7 @@ app.get("/update/:platform/:version", async (req, res) => {
   const platform = checkAlias(platformName);
 
   const findPlatform = cache.cache.latest.platforms.find(
-    (v) => v.platform == platform
+    (v) => v.platform && v.platform.includes(platform)
   );
 
   if (!findPlatform) {

@@ -160,28 +160,30 @@ app.get("/update/:platform/:version", async (req, res) => {
 
   await cache.loadCache();
 
-  consola.log("platformName: ", platformName);
+  consola.log("params platform: ", platformName);
   const platform = checkAlias(platformName);
+  console.log("🚀 ~ platform:", platform);
+  console.log("🚀 ~ cache:", cache);
 
   const findPlatform = cache.cache.latest.platforms.find(
     (v) => v.platform && v.platform.includes(platform)
   );
 
   consola.log(
-    "platform: ",
+    "cache platforms: ",
     cache.cache.latest.platforms.map((v) => v.platform).join(", ")
   );
   consola.log("platform: ", platform);
   consola.log("findPlatform: ", findPlatform);
 
-  if (!findPlatform) {
-    res.status(500).send({
-      error: "invalid_platform",
-      message: "The specified platform is not valid",
-    });
+  // if (!findPlatform) {
+  //   res.status(500).send({
+  //     error: "invalid_platform",
+  //     message: "The specified platform is not valid",
+  //   });
 
-    return;
-  }
+  //   return;
+  // }
 
   consola.log(
     `Request for ${platform} download of version ${version} from ${req.useragent} | ${req.ip}`
@@ -190,12 +192,12 @@ app.get("/update/:platform/:version", async (req, res) => {
   // Get the latest version from the cache
   const latest = await cache.loadCache();
 
-  if (!latest.platforms || !findPlatform) {
-    res.statusCode = 204;
-    res.end();
+  // if (!latest.platforms || !findPlatform) {
+  //   res.statusCode = 204;
+  //   res.end();
 
-    return;
-  }
+  //   return;
+  // }
 
   // Previously, we were checking if the latest version is
   // greater than the one on the client. However, we
@@ -218,7 +220,7 @@ app.get("/update/:platform/:version", async (req, res) => {
       pub_date,
       url: shouldProxyPrivateDownload
         ? `${cache.config.url}/download/${platformName}?update=true`
-        : findPlatform.url,
+        : findPlatform?.url,
     });
 
     return;
